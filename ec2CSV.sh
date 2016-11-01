@@ -9,7 +9,8 @@ export AWS_DEFAULT_REGION=$reg
 INSTANCES=`aws ec2 describe-instances --query 'Reservations[].Instances[].InstanceId' --output text`
 
 if [[ -z $INSTANCES ]]; then
-echo "no instances in $reg"
+# echo "no instances in $reg"
+true
 else
 for ID in $INSTANCES; do
 
@@ -25,9 +26,7 @@ INSERTME=$(echo $INSERTME | tr '"' "'")
 INSERTME=$(echo $INSERTME | sed -e 's/,,/,'NULL',/g')
 INSERTME=$(echo $INSERTME | sed -e 's/,,/,'NULL',/g')
 
-cat << EOF >> ec2.sql
-$INSERTME
-EOF
+echo $INSERTME
 
 done
 fi
